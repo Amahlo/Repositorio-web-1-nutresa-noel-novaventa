@@ -5,14 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sazón · Despensa</title>
   <link rel="stylesheet" href="../../assets/css/sazon.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header data-layout="header"></header>
   <main class="contenedor pagina-modulo">
     <section class="bloque-modulo">
-      <h1>Módulo Despensa</h1>
-      <p>Base lista para desarrollar historias de usuario de despensa.</p>
-      <div id="despensa-estado" class="mensaje-estado" role="status"></div>
+      <div class="despensa-header mb-4">
+        <h1 class="titulo-seccion"> Despensa · ¿Qué puedo cocinar hoy?</h1>
+      </div>
+      <div class="despensa-grid">
+        <div class="despensa-columna-izquierda">
+          <h2 class="subtitulo-despensa">Mi despensa</h2>
+          <div class="despensa-buscador-wrapper mb-3">
+            <div class="mk-input mb-2" id="contenedorBuscador">
+              <i class="bi bi-search"></i>
+              <input 
+                type="text"
+                id="inputIngrediente"
+                placeholder="Buscar ingrediente..."
+                autocomplete="off"
+              />
+            </div>
+            <ul id="listaSugerencias" class="despensa-sugerencias d-none"></ul>
+          </div>
+          <div id="contenedorChips" class="despensa-chips-container"></div>
+        </div>
+        <div class="despensa-columna-derecha">
+          <h2 class="subtitulo-despensa">
+            Puedes cocinar <span id="totalRecetas">12</span> recetas
+          </h2>
+          <div id="contenedorRecetas" class="despensa-recetas-lista"></div>
+        </div>
+      </div>
     </section>
   </main>
   <footer data-layout="footer"></footer>
