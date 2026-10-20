@@ -1,0 +1,151 @@
+/* Sazón – Historial de consumo
+   Ajusta estas variables si tus colores reales son ligeramente distintos. */
+.sz-hc {
+  --sz-verde: #1f5c2e;
+  --sz-lima: #7cb900;
+  --sz-lima-oscuro: #6aa000;
+  --sz-fondo-suave: #eaf3e0;
+  --sz-borde: #cfe0c4;
+  --sz-texto: #3b3b3b;
+  --sz-error: #b00020;
+
+  margin-top: 24px;
+  color: var(--sz-texto);
+  font-family: inherit;
+}
+
+.sz-hc h2 {
+  margin: 0 0 12px;
+  font-size: 1.4rem;
+  color: var(--sz-verde);
+}
+
+.sz-hc h3 {
+  margin: 24px 0 8px;
+  font-size: 1.1rem;
+  color: var(--sz-verde);
+}
+
+.sz-hc #sz-msg {
+  min-height: 1.2em;
+  margin: 0 0 12px;
+  font-weight: 500;
+}
+
+.sz-hc fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  background: var(--sz-fondo-suave);
+  border: 1px solid var(--sz-borde);
+  border-radius: 12px;
+}
+
+.sz-hc legend {
+  padding: 0 8px;
+  font-weight: 600;
+  color: var(--sz-verde);
+}
+
+.sz-hc input {
+  padding: 8px 12px;
+  font: inherit;
+  background: #fff;
+  border: 1px solid var(--sz-borde);
+  border-radius: 8px;
+}
+
+.sz-hc input:focus {
+  outline: 2px solid var(--sz-lima);
+  outline-offset: 1px;
+}
+
+.sz-hc label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sz-hc button {
+  padding: 8px 16px;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: var(--sz-lima);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.sz-hc button:hover {
+  background: var(--sz-lima-oscuro);
+}
+
+/* Botones secundarios (Limpiar, Cancelar, Eliminar) */
+.sz-hc #sz-limpiar,
+.sz-hc button[data-accion="cancelar"],
+.sz-hc button[data-accion="eliminar"] {
+  color: var(--sz-verde);
+  background: transparent;
+  border: 1px solid var(--sz-verde);
+}
+
+.sz-hc #sz-limpiar:hover,
+.sz-hc button[data-accion="cancelar"]:hover,
+.sz-hc button[data-accion="eliminar"]:hover {
+  background: var(--sz-fondo-suave);
+}
+
+.sz-hc table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border: 1px solid var(--sz-borde);
+  border-radius: 12px;
+}
+
+.sz-hc th,
+.sz-hc td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--sz-borde);
+}
+
+.sz-hc th {
+  color: var(--sz-verde);
+  background: var(--sz-fondo-suave);
+}
+
+.sz-hc tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.sz-hc td input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sz-hc td:last-child {
+  white-space: nowrap;
+}
+
+.sz-hc #sz-analisis ol,
+.sz-hc #sz-analisis ul {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.7;
+}
+
+@media (max-width: 640px) {
+  .sz-hc fieldset {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .sz-hc table {
+    display: block;
+    overflow-x: auto;
+  }
+}
