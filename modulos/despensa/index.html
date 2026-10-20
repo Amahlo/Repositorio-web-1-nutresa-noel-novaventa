@@ -3,18 +3,66 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sazón · Despensa</title>
+  <meta name="theme-color" content="#f4f4e8">
+  <title>Despensa Virtual · Sazón</title>
   <link rel="stylesheet" href="../../assets/css/sazon.css">
+  <link rel="stylesheet" href="despensa.css">
 </head>
 <body>
   <header data-layout="header"></header>
-  <main class="contenedor pagina-modulo">
-    <section class="bloque-modulo">
-      <h1>Módulo Despensa</h1>
-      <p>Base lista para desarrollar historias de usuario de despensa.</p>
-      <div id="despensa-estado" class="mensaje-estado" role="status"></div>
+  <main class="contenedor pagina-modulo despensa">
+    <section class="despensa-hero" aria-labelledby="titulo-despensa">
+      <p class="despensa-eyebrow">Tu cocina, más fácil</p>
+      <h1 id="titulo-despensa">Cocina con lo que ya tienes</h1>
+      <h2>Despensa Virtual y Sugerencias</h2>
+      <p class="despensa-intro">Agrega tus ingredientes disponibles y te sugeriremos las mejores recetas.</p>
     </section>
+
+    <div class="despensa-columnas">
+      <section class="panel-ingredientes" aria-labelledby="titulo-ingredientes">
+        <h2 id="titulo-ingredientes"><span class="numero-seccion">1.</span> ¿Qué tienes en casa?</h2>
+        <form class="buscador-ingredientes" id="form-ingredientes" autocomplete="off">
+          <label class="sr-only" for="busqueda-ingrediente">Buscar ingredientes</label>
+          <input
+            id="busqueda-ingrediente"
+            name="ingrediente"
+            type="search"
+            placeholder="Buscar ingredientes (ej. huevo, pollo, tomate...)"
+            aria-autocomplete="list"
+            aria-controls="sugerencias-ingredientes"
+            aria-expanded="false"
+          >
+          <button class="boton-agregar" type="submit" aria-label="Agregar ingrediente">+</button>
+          <ul class="sugerencias-ingredientes" id="sugerencias-ingredientes" role="listbox" hidden></ul>
+        </form>
+
+        <div class="lista-despensa">
+          <h3>Tus ingredientes agregados:</h3>
+          <ul class="chips-ingredientes" id="lista-ingredientes" aria-label="Ingredientes agregados"></ul>
+          <p class="mensaje-despensa" id="mensaje-despensa" role="status" aria-live="polite"></p>
+        </div>
+
+        <button class="boton-buscar-recetas" id="buscar-recetas" type="button">
+          ¡Buscar Recetas! <span aria-hidden="true">⌕</span>
+        </button>
+        <p class="ayuda-busqueda" id="ayuda-busqueda">Agrega al menos un ingrediente para comenzar.</p>
+      </section>
+
+      <section class="panel-recetas" aria-labelledby="titulo-recetas">
+        <div class="encabezado-recetas">
+          <h2 id="titulo-recetas"><span class="numero-seccion">2.</span> Recetas recomendadas</h2>
+          <p id="resumen-recetas" aria-live="polite"></p>
+        </div>
+        <div class="rejilla-recetas" id="lista-recetas"></div>
+      </section>
+    </div>
   </main>
+
+  <dialog class="dialogo-receta" id="dialogo-receta" aria-labelledby="dialogo-titulo">
+    <button class="dialogo-cerrar" id="cerrar-dialogo" type="button" aria-label="Cerrar receta">×</button>
+    <div id="detalle-receta"></div>
+  </dialog>
+
   <footer data-layout="footer"></footer>
   <script src="../../services/api.config.js"></script>
   <script src="../../assets/js/layout.js"></script>
