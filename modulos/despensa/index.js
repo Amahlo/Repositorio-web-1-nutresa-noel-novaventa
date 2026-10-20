@@ -6,12 +6,20 @@
   }
   lista.textContent = "";
 
-  for (var i = 0; i < recetas.length; i++){
+    for (var i = 0; i < recetas.length; i++){
     var tarjeta = document.createElement("article");
+    tarjeta.className = "despensa-tarjeta";
     var titulo = document.createElement("h3");
     titulo.textContent = recetas[i].nombreReceta.normalize("NFC");
-      tarjeta.appendChild(titulo);
-      lista.appendChild(tarjeta);
+    tarjeta.appendChild(titulo);
+    var porciones = document.createElement("p");
+    porciones.textContent = "Porciones: " + recetas[i].porciones;
+    tarjeta.appendChild(porciones);
+    var minutos = document.createElement("p");
+    minutos.textContent = "Minutos: " + recetas[i].minutos;
+    tarjeta.appendChild(minutos);
+    lista.appendChild(tarjeta);
+  
   }
   }
   async function iniciarDespensa() {
