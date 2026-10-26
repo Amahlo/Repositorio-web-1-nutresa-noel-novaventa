@@ -9,28 +9,33 @@
 </head>
 <body>
   <header data-layout="header"></header>
+  
   <main class="contenedor pagina-modulo">
     <section class="bloque-modulo">
       <div class="despensa-header mb-4">
         <h1 class="titulo-seccion"> Despensa · ¿Qué puedo cocinar hoy?</h1>
       </div>
+      
       <div class="despensa-grid">
         <div class="despensa-columna-izquierda">
           <h2 class="subtitulo-despensa">Mi despensa</h2>
+          
           <div class="despensa-buscador-wrapper mb-3">
             <div class="mk-input mb-2" id="contenedorBuscador">
               <i class="bi bi-search"></i>
               <input 
                 type="text"
                 id="inputIngrediente"
-                placeholder="Buscar ingrediente..."
+                placeholder="Buscar ingrediente (ej. palta, frutilla)..."
                 autocomplete="off"
               />
             </div>
             <ul id="listaSugerencias" class="despensa-sugerencias d-none"></ul>
           </div>
+          
           <div id="contenedorChips" class="despensa-chips-container"></div>
         </div>
+        
         <div class="despensa-columna-derecha">
           <h2 class="subtitulo-despensa">
             Puedes cocinar <span id="totalRecetas">12</span> recetas
@@ -40,7 +45,9 @@
       </div>
     </section>
   </main>
+
   <footer data-layout="footer"></footer>
+  
   <script src="../../services/api.config.js"></script>
   <script src="../../assets/js/layout.js"></script>
   <script src="servicio.js"></script>

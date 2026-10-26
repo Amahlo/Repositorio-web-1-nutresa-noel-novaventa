@@ -47,19 +47,33 @@
     });
   }
 
-  function manejarBusqueda(e) {
+  async function manejarBusqueda(e) {
     const termino = normalizarTexto(e.target.value);
 
-    if (!termino) {
+    if (!termino || termino.length < 2) {
       if (listaSugerencias) listaSugerencias.classList.add("d-none");
       return;
     }
 
-    const coincidencias = catalogoIngredientes.filter((item) =>
-      normalizarTexto(item).includes(termino)
-    );
+    const coincidenciasNormales = catalogoIngredientes
+      .filter((item) => normalizarTexto(item).includes(termino))
+      .map(nombre => ({ textoVisual: nombre, nombreOficial: nombre}));
 
-    renderizarSugerencias(coincidencias);
+    let equivalencia = null;
+    if (window.despensaServicio && typeof window.despensaServicio.buscarEquivalencia === "function") {
+      equivalencia = await window.despensaServicio.buscarEquivalencia(termino);
+    }
+
+    let resultados = [...coincidenciasNormales];
+
+    if (equivalencia) {
+      resultados.unshift({
+        textoVisual: `<strong>${equivalencia.terminoColoquial}</strong> <span style="color: gray; font-size: 0.9em;">→ ${equivalencia.ingredienteOficialNombre}</span>`,
+        nombreOficial: equivalencia.ingredienteOficialNombre
+      });
+    }
+
+    renderizarSugerencias(resultados);
   }
 
   function renderizarSugerencias(coincidencias) {
@@ -71,17 +85,31 @@
       return;
     }
 
-    coincidencias.forEach((nombreIngrediente) => {
+    const unicos = [];
+    const vistos = new Set();
+
+    coincidencias.forEach(item => {
+      const nomNorm = normalizarTexto(item.nombreOficial);
+      if (!vistos.has(nomNorm)) {
+        vistos.add(nomNorm);
+        unicos.push(item);
+      }
+    });
+
+    unicos.forEach((item) => {
       const li = document.createElement("li");
-      li.textContent = nombreIngrediente;
+      li.style.cursor = "pointer";
+      li.style.padding = "8px";
+      li.style.borderBottom = "1px solid #eee";
+      li.innerHTML = item.textoVisual;
 
       li.addEventListener("click", () => {
         const existe = ingredientesSeleccionados.some(
-          (item) => normalizarTexto(item) === normalizarTexto(nombreIngrediente)
+          (ing) => normalizarTexto(ing) === normalizarTexto(item.nombreOficial)
         );
 
         if (!existe) {
-          ingredientesSeleccionados.push(nombreIngrediente);
+          ingredientesSeleccionados.push(item.nombreOficial);
           renderizarChips();
         }
 

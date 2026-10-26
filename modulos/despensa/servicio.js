@@ -1,30 +1,34 @@
-(function () {
-  window.despensaServicio = {
-    async listarIngredientes() {
-      try {
-        return await new Promise((resolve) => {
-          setTimeout(() => {
-            resolve([
-              'Pasta',
-              'Ranchera',
-              'Huevos',
-              'Arroz',
-              'Cebolla',
-              'Papa',
-              'Champiñones',
-              'Jalapeño',
-              'Tomate',
-              'Queso'
-            ]);
-          }, 100);
-        });
-      } catch (error) {
-        console.error('Error al obtener los ingredientes:', error);
-        throw error;
+const DESPENSA_SERVICIO_CONFIG = {
+  modo: "api",
+  mockSourceGlobal: "despensaMockData",
+  rutasApi:{
+    equivalencias: "https://6adb70213b7e90b8208fefa0.mockapi.io/equivalencias"
+  }
+}
+
+const despensaServicio = {
+  async buscarEquivalencia(termino) {
+    if (!termino) return null;
+
+    const terminoNormalizado = termino.trim().toLowerCase();
+
+    try {
+      const response = await fetch(DESPENSA_SERVICIO_CONFIG.rutasApi.equivalencias);
+
+      if (!response.ok) {
+        throw new Error(`Error HTTP: ${response.status}`);
       }
-    },
-    async listarTodos() {
-      return Promise.resolve([]);
+
+      const equivalencias = await response.json();
+
+      const match = equivalencias.find(eq => eq.terminoColoquial.toLowerCase().includes(terminoNormalizado));
+      return match || null;
+
+    } catch (error) {
+      console.error("[Despensa Servicio] Error consultando equialencias", error);
+      return null;
     }
-  };
-})();
+  }
+};
+
+window.despensaServicio = despensaServicio;
