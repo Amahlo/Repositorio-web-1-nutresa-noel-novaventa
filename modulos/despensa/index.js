@@ -69,7 +69,7 @@
     if (equivalencia) {
       resultados.unshift({
         textoVisual: `<strong>${equivalencia.terminoColoquial}</strong> <span style="color: gray; font-size: 0.9em;">→ ${equivalencia.ingredienteOficialNombre}</span>`,
-        nombreOficial: equivalencia.ingredienteOficialNombre
+        nombreOficial: equivalencia.nombreOficial
       });
     }
 
