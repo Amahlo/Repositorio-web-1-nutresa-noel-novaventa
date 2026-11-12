@@ -8,32 +8,32 @@
     }
 
     try {
-    
+
       await window.despensaServicio.listarTodos();
       estado.textContent = "Estructura base del módulo despensa cargada.";
 
-         if (contenedorDespensa && !contenedorDespensa.dataset.eventoEliminacionConfigurado) {
+      if (contenedorDespensa && !contenedorDespensa.dataset.eventoEliminacionConfigurado) {
         contenedorDespensa.dataset.eventoEliminacionConfigurado = "true";
 
         contenedorDespensa.addEventListener("click", async (event) => {
-        
+
           const botonCerrar = event.target.closest(".despensa-chip-cerrar");
           if (!botonCerrar) return;
 
-                  const chip = botonCerrar.closest(".despensa-chip");
+          const chip = botonCerrar.closest(".despensa-chip");
           if (!chip) return;
 
-                   const itemId = chip.dataset.id;
+          const itemId = chip.dataset.id;
           if (!itemId) {
             console.warn("El chip no contiene un ID de ingrediente válido.");
             return;
           }
 
           try {
-                    await window.despensaServicio.eliminarItem(itemId);
+            await window.despensaServicio.eliminarItem(itemId);
 
-                      chip.remove();
-            
+            chip.remove();
+
             estado.removeAttribute("role");
             estado.textContent = "Ingrediente retirado de la despensa exitosamente.";
           } catch (errorEliminacion) {
