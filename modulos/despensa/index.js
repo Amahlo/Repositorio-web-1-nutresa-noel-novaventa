@@ -26,13 +26,21 @@
     }
   })
 
-
-
-
-
-
       await window.despensaServicio.listarTodos();
       estado.textContent = "Estructura base del módulo despensa cargada.";
+
+      try {
+  await window.despensaServicio.eliminarItem(itemId);
+
+  chip.remove();
+
+  estado.removeAttribute("role");
+  estado.textContent = "Ingrediente retirado de la despensa exitosamente.";
+} catch (errorEliminacion) {
+  estado.setAttribute("role", "alert");
+  estado.textContent = "No fue posible eliminar el ingrediente seleccionado.";
+  console.error("Error al eliminar el item:", errorEliminacion);
+}
 
     } catch (error) {
       estado.setAttribute("role", "alert");
