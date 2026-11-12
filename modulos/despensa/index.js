@@ -1,7 +1,7 @@
 (function () {
   async function iniciarDespensa() {
     const estado = document.getElementById("despensa-estado");
-    const contenedorDespensa = document.getElementById("despensa-contenedor"); // Contenedor general o de los chips
+    const contenedorDespensa = document.getElementById("despensa-contenedor"); 
 
     if (!estado) {
       return;

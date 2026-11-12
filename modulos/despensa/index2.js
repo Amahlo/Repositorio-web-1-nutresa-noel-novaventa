@@ -1,13 +1,37 @@
 (function () {
-  async function sincronizarSugerenciasRecetas() {
-    const contenedorRecetas = document.getElementById("recetas-sugeridas-contenedor");
-    const estadoRecetas = document.getElementById("recetas-estado");
+    async function sincronizarSugerenciasRecetas() {
+        const contenedorRecetas = document.getElementById("recetas-sugeridas-contenedor");
+        const estadoRecetas = document.getElementById("recetas-estado");
 
-    if (!contenedorRecetas) return;
-     }
+        if (!contenedorRecetas) return;
+    }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    document.addEventListener("despensa:actualizada", sincronizarSugerenciasRecetas);
-    
-  });
+    try {
+        if (estadoRecetas) {
+            estadoRecetas.removeAttribute("role");
+            estadoRecetas.textContent = "Recalculando coincidencia de recetas...";
+        }
+
+        const ingredientesActuales = await window.despensaServicio.listarTodos();
+
+        if (!Array.isArray(ingredientesActuales) || ingredientesActuales.length === 0) {
+            contenedorRecetas.innerHTML =  `<div class="recetas-sugeridas-vacia">
+                <p>No hay ingredientes en la despensa para calcular sugerencias de recetas.</p>
+            </div>`;
+            if (estadoRecetas) estadoRecetas.textContent = "Sin ingredientes para calcular sugerencias.";
+            return;
+        }
+            if (estadoRecetas) estadoRecetas.textContent = "Sin ingredientes para calcular sugerencias.";
+            return;
+        }
+
+    } catch (error) {
+
+    }
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("despensa:actualizada", sincronizarSugerenciasRecetas);
+
+    });
 })();
