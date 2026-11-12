@@ -1,52 +1,56 @@
 (function () {
-    async function sincronizarSugerenciasRecetas() {
-        const contenedorRecetas = document.getElementById("recetas-sugeridas-contenedor");
-        const estadoRecetas = document.getElementById("recetas-estado");
+    async function iniciarDespensa() {
+        const estado = document.getElementById("despensa-estado");
+        const contenedorDespensa = document.getElementById("despensa-contenedor");
 
-        if (!contenedorRecetas) {
+        if (!estado) {
             return;
         }
 
         try {
-            if (estadoRecetas) {
-                estadoRecetas.removeAttribute("role");
-                estadoRecetas.textContent = "Recalculando coincidencia de recetas...";
-            }
+            await window.despensaServicio.listarTodos();
+            estado.textContent = "Estructura base del módulo despensa cargada.";
 
-            const ingredientesActuales = await window.despensaServicio.listarTodos();
+            if (contenedorDespensa && !contenedorDespensa.dataset.eventoEliminacionConfigurado) {
+                contenedorDespensa.dataset.eventoEliminacionConfigurado = "true";
 
-            if (!Array.isArray(ingredientesActuales) || ingredientesActuales.length === 0) {
-                contenedorRecetas.innerHTML = `
-                    <div class="recetas-sugeridas-vacia">
-                        <p>No hay ingredientes en la despensa para calcular sugerencias de recetas.</p>
-                    </div>
-                `;
-                if (estadoRecetas) {
-                    estadoRecetas.textContent = "Sin ingredientes para calcular sugerencias.";
-                }
-                return;
-            }
+                contenedorDespensa.addEventListener("click", async (event) => {
+                    const botonCerrar = event.target.closest(".despensa-chip-cerrar");
+                    if (!botonCerrar) return;
 
-            const sugerencias = await window.recetasServicio.calcularSugerencias(ingredientesActuales);
+                    const chip = botonCerrar.closest(".despensa-chip");
+                    if (!chip) return;
 
-            if (typeof window.renderizarSugerencias === "function") {
-                window.renderizarSugerencias(sugerencias);
-            }
+                    const itemId = chip.dataset.id;
+                    if (!itemId) {
+                        console.warn("El chip no contiene un ID de ingrediente válido.");
+                        return;
+                    }
 
-            if (estadoRecetas) {
-                estadoRecetas.textContent = `Sugerencias actualizadas (${sugerencias.length} recetas encontradas).`;
+                    try {
+                        await window.despensaServicio.eliminarItem(itemId);
+
+                        chip.remove();
+
+                        estado.removeAttribute("role");
+                        estado.textContent = "Ingrediente retirado de la despensa exitosamente.";
+
+                        document.dispatchEvent(new CustomEvent("despensa:actualizada"));
+
+                    } catch (errorEliminacion) {
+                        estado.setAttribute("role", "alert");
+                        estado.textContent = "No fue posible eliminar el ingrediente seleccionado.";
+                        console.error("Error al eliminar el item:", errorEliminacion);
+                    }
+                });
             }
 
         } catch (error) {
-            if (estadoRecetas) {
-                estadoRecetas.setAttribute("role", "alert");
-                estadoRecetas.textContent = "No fue posible actualizar las sugerencias en este momento.";
-            }
-            console.error("[Sincronización Recetas] Error:", error);
+            estado.setAttribute("role", "alert");
+            estado.textContent = "No fue posible cargar la base de despensa.";
+            console.error("Error en la inicialización:", error);
         }
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        document.addEventListener("despensa:actualizada", sincronizarSugerenciasRecetas);
-    });
+    document.addEventListener("DOMContentLoaded", iniciarDespensa);
 })();
